@@ -1,5 +1,4 @@
 ﻿@page "/fetchdata"
-@* @using BlazorServerApp.Data *@
 @using BlazorServerApp.Models
 @inject HttpClient Http
 
@@ -16,7 +15,7 @@
 }
 else
 {
-<table class="table">
+    <table class="table">
         <thead>
             <tr>
                 <th>Date</th>
@@ -40,10 +39,11 @@ else
                 <td>@forecastfull.County</td>
                 <td>@forecastfull.State</td>
             </tr>
-            </tbody>
-            </table>
+        </tbody>
+    </table>
 }
 <hr />
+<p>List of weather forecasts</p>
 @if (forecastfulls == null)
 {
     <p><em>Loading...</em></p>
@@ -80,17 +80,34 @@ else
         </tbody>
     </table>
 }
+<hr/>
+Add a new forecast
+<br/>
+<EditForm Model="newforecastfull" OnValidSubmit="CreateNewForecastFull">
+    Date:<InputDate @bind-Value=newforecastfull.Date /><br />
+    Temperature (in C): <InputNumber @bind-Value=newforecastfull.TemperatureC /><br />
+    Summary:<InputTextArea @bind-Value=newforecastfull.Summary /><br />
+    Zip code:<InputNumber @bind-Value=newforecastfull.Zip min="10000" max="99999" /><br />
+    City:<InputText @bind-Value="newforecastfull.City" /><br />
+    County:<InputText @bind-Value="newforecastfull.County" /><br />
+    State:<InputText @bind-Value="newforecastfull.State" /><br />
+    <button type="submit" disabled="@isSubmitting">Save</button>@saving
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>
 
 @code {
 
     private IEnumerable<WeatherForecastFull> forecastfulls;
     private WeatherForecastFull forecastfull;
+    private WeatherForecastFull newforecastfull = new();
     private int selectedZip;
     private string searchResult;
+    private string saving;
+    private bool isSubmitting;
 
     private async void ZipCodeChanged(ChangeEventArgs e)
     {
-        //int zip;
         bool isParsable = int.TryParse((string)e.Value, out selectedZip);
         if (isParsable)
         {
@@ -110,12 +127,21 @@ else
     }
     protected override async Task OnInitializedAsync()
     {
-        // HttpResponseMessage reponse = await Http.GetAsync($"");
-        // if (reponse.IsSuccessStatusCode)
-        // {
-        //     WeatherForecastFull weatherForecast = await reponse.Content.ReadFromJsonAsync<WeatherForecastFull>();
-        // }
         forecastfulls = await Http.GetFromJsonAsync<IEnumerable<WeatherForecastFull>>("");
+        ResetNewForecastFull();
+    }
+    private async Task CreateNewForecastFull()
+    {
+        isSubmitting = true;
+        saving = "saving...";
+        HttpResponseMessage response = await Http.PostAsJsonAsync("", newforecastfull);
+        await this.OnInitializedAsync();
+        saving = "saved.";
+        isSubmitting = false;
+    }
 
+    private void ResetNewForecastFull()
+    {
+        newforecastfull = new() { Date = DateOnly.FromDateTime(DateTime.Now) };
     }
 }

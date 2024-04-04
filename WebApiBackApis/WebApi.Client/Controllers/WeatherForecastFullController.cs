@@ -38,7 +38,7 @@ namespace WebApi.Client.Controllers
                     State = zipCode.State
                 }) ;
             }
-            return weatherForecastFulls.OrderBy(f=>f.Zip);
+            return weatherForecastFulls.OrderBy(f=>f.Zip).ThenByDescending(f=>f.Date);
         }
 
         [HttpGet("{zip}")]
@@ -80,8 +80,7 @@ namespace WebApi.Client.Controllers
                 State = weatherForecastFull.State,
                 Zip = weatherForecastFull.Zip
             };
-            HttpResponseMessage response = await httpClientAPI3.PostAsJsonAsync(
-                "zipcode", zipCode);
+            HttpResponseMessage response = await httpClientAPI3.PostAsJsonAsync("", zipCode);
 
             WeatherForecast weatherForecast = new()
             {
@@ -92,12 +91,15 @@ namespace WebApi.Client.Controllers
             };
 
             response = await httpClientAPI2.PostAsJsonAsync("", weatherForecast);
-            response.EnsureSuccessStatusCode();
-            var scheme = HttpContext.Request.Scheme;
-            var host = HttpContext.Request.Host;
-            var actionUrl = this.Url.Action();
-            var uri = $"{scheme}://{host.Value}{actionUrl}/{weatherForecastFull.Zip}";
-            return new Uri(uri);
+            if (response.IsSuccessStatusCode)
+            {
+                var scheme = HttpContext.Request.Scheme;
+                var host = HttpContext.Request.Host;
+                var actionUrl = this.Url.Action();
+                var uri = $"{scheme}://{host.Value}{actionUrl}/{weatherForecastFull.Zip}";
+                return new Uri(uri);
+            }
+            return null;
         }
 
         /// <summary>
