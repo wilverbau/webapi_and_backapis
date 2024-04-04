@@ -1,0 +1,121 @@
+﻿@page "/fetchdata"
+@* @using BlazorServerApp.Data *@
+@using BlazorServerApp.Models
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+<p>This component demonstrates fetching data from a service.</p>
+<p>Find a forecast by zip</p>
+<input type="number" @onchange="ZipCodeChanged" />
+<br />
+@if(forecastfull ==null)
+{
+    <span>@searchResult</span>
+}
+else
+{
+<table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+                <th>Zip</th>
+                <th>City</th>
+                <th>County</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@forecastfull.Date.ToShortDateString()</td>
+                <td>@forecastfull.TemperatureC</td>
+                <td>@forecastfull.TemperatureF</td>
+                <td>@forecastfull.Summary</td>
+                <td>@forecastfull.Zip</td>
+                <td>@forecastfull.City</td>
+                <td>@forecastfull.County</td>
+                <td>@forecastfull.State</td>
+            </tr>
+            </tbody>
+            </table>
+}
+<hr />
+@if (forecastfulls == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+                <th>Zip</th>
+                <th>City</th>
+                <th>County</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecastfulls)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                    <td>@forecast.Zip</td>
+                    <td>@forecast.City</td>
+                    <td>@forecast.County</td>
+                    <td>@forecast.State</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private IEnumerable<WeatherForecastFull> forecastfulls;
+    private WeatherForecastFull forecastfull;
+    private int selectedZip;
+    private string searchResult;
+
+    private async void ZipCodeChanged(ChangeEventArgs e)
+    {
+        //int zip;
+        bool isParsable = int.TryParse((string)e.Value, out selectedZip);
+        if (isParsable)
+        {
+            forecastfull = null;
+            searchResult = "searching...";
+            HttpResponseMessage reponse = await Http.GetAsync($"{selectedZip}");
+            if (reponse.StatusCode==System.Net.HttpStatusCode.OK)
+            {
+                forecastfull = await reponse.Content.ReadFromJsonAsync<WeatherForecastFull>();
+            }
+            else
+            {
+                searchResult = "not found.";
+            }
+            StateHasChanged();
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        // HttpResponseMessage reponse = await Http.GetAsync($"");
+        // if (reponse.IsSuccessStatusCode)
+        // {
+        //     WeatherForecastFull weatherForecast = await reponse.Content.ReadFromJsonAsync<WeatherForecastFull>();
+        // }
+        forecastfulls = await Http.GetFromJsonAsync<IEnumerable<WeatherForecastFull>>("");
+
+    }
+}
