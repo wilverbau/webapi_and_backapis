@@ -1,0 +1,8 @@
+@BackendAPI3.Service_HostAddress = http://localhost:5009
+
+GET {{BackendAPI3.Service_HostAddress}}/zipcodes/
+Accept: application/json
+
+###
+GET {{BackendAPI3.Service_HostAddress}}/zipcodes/11727
+Accept: application/json
