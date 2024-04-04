@@ -1,6 +1,4 @@
-//using BlazorServerApp.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +11,7 @@ builder.Services.AddScoped(
         BaseAddress = new Uri(builder.Configuration.GetValue<string>("WebApi"))
     }
 );
-//TODO remove below
-//builder.Services.AddSingleton<WeatherForecastService>();
+
 
 var app = builder.Build();
 
