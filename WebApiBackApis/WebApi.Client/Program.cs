@@ -16,13 +16,16 @@ builder.Services.AddSwaggerGen(opt =>
         Example = new OpenApiString(DateTime.Today.ToString("yyyy-MM-dd"))
     })
 );
+
+var backendApi2Url = builder.Configuration.GetValue<string>("BackendAPIs:BackendAPI2");
+var backendApi3Url = builder.Configuration.GetValue<string>("BackendAPIs:BackendAPI3");
 builder.Services.AddHttpClient("BackendAPI2", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7205/");
+    client.BaseAddress = new Uri(backendApi2Url);
 });
 builder.Services.AddHttpClient("BackendAPI3", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7200/");
+    client.BaseAddress = new Uri(backendApi3Url);
 });
 
 
