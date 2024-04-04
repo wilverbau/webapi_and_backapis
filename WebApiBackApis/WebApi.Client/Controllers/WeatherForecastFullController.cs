@@ -22,7 +22,7 @@ namespace WebApi.Client.Controllers
         public async Task<IEnumerable<WeatherForecastFull>> GetAsync()
         {
             var httpClientAPI2 = _httpClientFactory.CreateClient("BackendAPI2");
-            var forecasts = await httpClientAPI2.GetFromJsonAsync<IEnumerable<WeatherForecast>>("weatherforecast"); //.GetAsync.GetAsync<Enumerable<WeatherForecast>>("weatherforecast");
+            var forecasts = await httpClientAPI2.GetFromJsonAsync<IEnumerable<WeatherForecast>>("");
             List<WeatherForecastFull> weatherForecastFulls = new List<WeatherForecastFull>();
             foreach(var forecast in forecasts)
             {
@@ -46,7 +46,7 @@ namespace WebApi.Client.Controllers
         {
             var httpClientAPI2 = _httpClientFactory.CreateClient("BackendAPI2");
             WeatherForecast weatherForecast;
-            HttpResponseMessage reponse = await httpClientAPI2.GetAsync($"weatherforecast/{zip}");
+            HttpResponseMessage reponse = await httpClientAPI2.GetAsync($"{zip}");
             if (reponse.IsSuccessStatusCode)
             {
                 weatherForecast = await reponse.Content.ReadFromJsonAsync<WeatherForecast>();
@@ -91,7 +91,7 @@ namespace WebApi.Client.Controllers
                 TemperatureC = weatherForecastFull.TemperatureC
             };
 
-            response = await httpClientAPI2.PostAsJsonAsync("weatherforecast", weatherForecast);
+            response = await httpClientAPI2.PostAsJsonAsync("", weatherForecast);
             response.EnsureSuccessStatusCode();
             var scheme = HttpContext.Request.Scheme;
             var host = HttpContext.Request.Host;
@@ -112,7 +112,7 @@ namespace WebApi.Client.Controllers
             var httpClientAPI3 = _httpClientFactory.CreateClient("BackendAPI3");
             try
             {
-                zipCode = await httpClientAPI3.GetFromJsonAsync<ZipCode>($"zipcode/{zip}");
+                zipCode = await httpClientAPI3.GetFromJsonAsync<ZipCode>($"{zip}");
             }
             catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
             {
