@@ -1,5 +1,4 @@
 ﻿using BackendAPI2.Service.Models;
-using System;
 
 namespace BackendAPI2.Service
 {
@@ -27,12 +26,16 @@ namespace BackendAPI2.Service
         /// <inheritdoc>
         public IEnumerable<WeatherForecast> GetAll()
         {
+            //to mimic database latency
+            Thread.Sleep(3000);
             return _weatherForecasts;
         }
 
         /// <inheritdoc>
         public WeatherForecast GetByZip(int zip)
         {
+            //to mimic database latency
+            Task.Delay(2000).Wait();
             if (!_weatherForecasts.Where(w => w.Zip == zip).Any())
                 return null;
             else

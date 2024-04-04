@@ -1,6 +1,5 @@
 using BackendAPI2.Service.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace BackendAPI2.Service.Controllers
 {
@@ -21,14 +20,12 @@ namespace BackendAPI2.Service.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            Thread.Sleep(3000);
             return _weatherService.GetAll();
         }
 
         [HttpGet("{zipcode}")]
         public ActionResult Get(int zipcode)
         {
-            Task.Delay(2000).Wait();
             var weatherforecast = _weatherService.GetByZip(zipcode);
             if (weatherforecast == null)
                 return NotFound();
@@ -40,13 +37,9 @@ namespace BackendAPI2.Service.Controllers
         {
             var add = _weatherService.AddWeatherForecast(weatherForecast);
             if (add)
-            {
                 return Created();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest();
+
         }
     }
 }

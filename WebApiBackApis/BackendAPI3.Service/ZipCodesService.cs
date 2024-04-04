@@ -18,6 +18,8 @@ namespace BackendAPI3.Service
         /// <inheritdoc>
         public bool AddZipCode(ZipCode zipCode)
         {
+            //fake database latency
+            Task.Delay(1000).Wait();
             if (_zipCodes.Any(z=>z.Zip==zipCode.Zip)) 
                 return false;
             _zipCodes.Add(zipCode);
@@ -27,6 +29,8 @@ namespace BackendAPI3.Service
         /// <inheritdoc>
         public IEnumerable<ZipCode> GetAll()
         {
+            //fake database latency
+            Task.Delay(2000).Wait();
             return _zipCodes;
         }
 

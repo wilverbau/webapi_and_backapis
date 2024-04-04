@@ -26,7 +26,6 @@ namespace BackendAPI3.Service.Controllers
         [HttpGet("{zipcode}")]
         public ActionResult Get(int zipcode)
         {
-            Task.Delay(2000).Wait();
             var zipCode = _zipCodesService.GetByZip(zipcode);
             if (zipCode == null)
                 return NotFound();
@@ -38,13 +37,10 @@ namespace BackendAPI3.Service.Controllers
         {
             var add = _zipCodesService.AddZipCode(zipCode);
             if (add)
-            {
                 return Created();
-            }
-            else
-            {
-                return BadRequest();
-            }
+
+            return BadRequest();
+
         }
     }
 }

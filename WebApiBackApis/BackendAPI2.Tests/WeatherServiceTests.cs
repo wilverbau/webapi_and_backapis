@@ -1,8 +1,5 @@
 using BackendAPI2.Service;
 using BackendAPI2.Service.Models;
-using Microsoft.Extensions.Configuration;
-using System.Net.Http.Json;
-using static System.Net.WebRequestMethods;
 
 namespace BackendAPI2.Tests
 {

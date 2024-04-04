@@ -2,15 +2,8 @@
 using BackendAPI3.Service.Controllers;
 using BackendAPI3.Service.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BackendAPI3.Tests
 {
