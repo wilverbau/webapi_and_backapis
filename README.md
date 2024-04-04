@@ -13,7 +13,7 @@ That webApi uses 2 HttpClients, each pointing to a backendApi.
 Each backendApi has a Properties>launchSettings.json file, where a port is assigned for the localhost Kestrel webserver.
 The webApi references those values in its appsettings.json file.
 
-Similarly, the Blazor application stores the URL exposed for the webApi (in its launchSettings.json) in its appsettings.json file.
+Similarly, the Blazor application stores the URL exposed for the webApi (in its launchSettings.json) in its appsettings.json file, and populates an HttpClient.
 
 In order to test locally, it is required to have multiple projects started, as follows:
 
