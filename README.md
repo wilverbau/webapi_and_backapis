@@ -19,5 +19,7 @@ In order to test locally, it is required to have multiple projects started, as f
 
   ![image](https://github.com/wilverbau/webapi_and_backapis/assets/105066089/44dcf7b1-ba42-46d8-bf1a-b4d1d115c357)
 
+(Those settings are saved in the .suo binary file, not tracked by Git.)
+
 In the end, we get 4 web tabs being launched, 1 for each backend api, 1 for the webapi and 1 for the Blazor app.
 ![image](https://github.com/wilverbau/webapi_and_backapis/assets/105066089/32019c01-35fb-4f1b-b448-7b827347ab05)
