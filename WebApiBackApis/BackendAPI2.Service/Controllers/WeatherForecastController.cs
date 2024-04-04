@@ -17,12 +17,21 @@ namespace BackendAPI2.Service.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Returns the whole list of WeatherForecast
+        /// </summary>
+        /// <returns></returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return _weatherService.GetAll();
         }
 
+        /// <summary>
+        /// Returns the most recent weather forecast for the given zipcode.
+        /// </summary>
+        /// <param name="zipcode"></param>
+        /// <returns></returns>
         [HttpGet("{zipcode}")]
         public ActionResult Get(int zipcode)
         {
@@ -32,6 +41,11 @@ namespace BackendAPI2.Service.Controllers
             return Ok(weatherforecast);
         }
 
+        /// <summary>
+        /// Adds the WeatherForecast
+        /// </summary>
+        /// <param name="weatherForecast"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post([FromBody] WeatherForecast weatherForecast)
         {

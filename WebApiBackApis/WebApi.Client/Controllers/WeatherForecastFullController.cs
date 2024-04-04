@@ -69,6 +69,13 @@ namespace WebApi.Client.Controllers
 
         }
 
+        /// <summary>
+        /// Adds a new WeatherForecastFull.
+        /// If the ZipCode part already existed, then it is not replaced.
+        /// If it didn't exist, then it is added.
+        /// </summary>
+        /// <param name="weatherForecastFull"></param>
+        /// <returns>the URI pointing to the newly added element</returns>
         [HttpPost]
         public async Task<Uri> CreateWeatherForecastFullAsync(WeatherForecastFull weatherForecastFull)
         {

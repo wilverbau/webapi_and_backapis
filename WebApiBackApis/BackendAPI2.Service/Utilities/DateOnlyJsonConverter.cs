@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace BackendAPI2.Service.Utilities
 {
+    /// <summary>
+    /// Custom JSON converter in order to map the DateOnly .NET type.
+    /// </summary>
     public sealed class DateOnlyJsonConverter : JsonConverter<DateOnly>
     {
         private const string Format = "yyyy-MM-dd";

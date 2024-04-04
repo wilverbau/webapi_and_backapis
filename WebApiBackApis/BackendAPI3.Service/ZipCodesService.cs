@@ -4,6 +4,9 @@ namespace BackendAPI3.Service
 {
     public class ZipCodesService : IZipCodesService
     {
+        /// <summary>
+        /// Dummy list of elements, to simulate a data repository.
+        /// </summary>
         private List<ZipCode> _zipCodes = new()
         {
             new(){ City="Brentwood", County="Suffolk", State="NY", Zip=11717},

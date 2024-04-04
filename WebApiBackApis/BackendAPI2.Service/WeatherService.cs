@@ -9,6 +9,9 @@ namespace BackendAPI2.Service
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        /// <summary>
+        /// Dummy list of elements, to simulate a data repository.
+        /// </summary>
         private List<WeatherForecast> _weatherForecasts;
 
         public WeatherService()
@@ -32,6 +35,7 @@ namespace BackendAPI2.Service
         }
 
         /// <inheritdoc>
+        /// Returns the most recent WeatherForecast for the input zipcode
         public WeatherForecast GetByZip(int zip)
         {
             //to mimic database latency
